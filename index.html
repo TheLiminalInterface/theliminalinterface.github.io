@@ -1,9 +1,46 @@
 <head>
     <title>The Liminal Interface</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
 
-<h1>The Liminal Interface</h1>
+<div class="navbar">
+    <img src="images/li-logo.png" alt="Liminal Interface Logo" width="80" height="80">
+    <div class="menu">
+        <a href="index.html" class="menu-item">Feed</a>
+        <a href="about.html" class="menu-item">About</a>
+        <a href="plus.html" class="menu-item">Liminal Plus</a>
+    </div>
+</div>
+
+<div id="article-feed">
+
+</div>
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/data/manifest.json')
+            .then(res => res.json())
+            .then(articles => {
+                const feed = document.getElementById('article-feed');
+
+                articles.forEach(article => {
+                    const link = document.createElement('a');
+                    // link.href = `/articles/${article.slug}`;
+                    link.className = 'article-link';
+
+                    link.innerHTML = `
+                       <div class="article-link">
+                          <h3>${article.title}</h3>
+                          <p>${article.excerpt}</p>
+                        </div>
+                    `;
+
+                    feed.appendChild(link);
+                });
+            });
+    });
+</script>
